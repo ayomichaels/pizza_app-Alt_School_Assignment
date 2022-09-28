@@ -6,7 +6,7 @@ const { db } = require('./orderModel');
 const orderModel = require('./orderModel');
 require('dotenv').config()
 
-const PORT = 3334
+const PORT = process.env.port || 3334
 
 const app = express()
 
