@@ -6,7 +6,8 @@ const { db } = require('./models/orderModel');
 const order = require('./models/orderModel');
 const user = require('./models/userModel')
 require('dotenv').config()
-const authUser = require('./middleware/authenticate')
+const authUser = require('./middleware/authUser')
+const authRole = require('./middleware/authRole')
 
 const PORT = process.env.port || 3334
 
@@ -66,7 +67,7 @@ app.get('/order/:orderId', async (req, res) => {
     return res.json({ status: true, order })
 })
 
-app.get('/orders', authUser, async (req, res) => {
+app.get('/orders', [authUser, authRole], async (req, res) => {
     const orders = await order.find()
 
     return res.json({ status: true, orders })
