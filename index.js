@@ -8,6 +8,7 @@ const user = require('./models/userModel')
 require('dotenv').config()
 const authUser = require('./middleware/authUser')
 const authRole = require('./middleware/authRole')
+const orderRoutes = require ('./routes/orderRoutes')
 
 const PORT = process.env.port || 3334
 
@@ -15,6 +16,8 @@ const app = express()
 
 app.use(express.json());
 
+
+app.use('/orders', orderRoutes )
 //start of user routes
 
 app.post('/', async (req, res) =>{
@@ -39,60 +42,29 @@ app.get('/', (req, res) => {
     return res.json({ status: true })
 })
 
-app.post('/order', async (req, res) => {
-    const body = req.body;
 
-    const total_price = body.items.reduce((prev, curr) => {
-        prev += curr.price
-        return prev
-    }, 0);
 
-    const order = await order.create({ 
-        items: body.items,
-        created_at: moment().toDate(),
-        total_price
-    })
-    
-    return res.json({ status: true, order })
-})
 
-app.get('/order/:orderId', async (req, res) => {
-    const { orderId } = req.params;
-    const order = await order.findById(orderId)
+// app.patch('/order/:id', async (req, res) => {
+//     const { id } = req.params;
+//     const { state } = req.body;
 
-    if (!order) {
-        return res.status(404).json({ status: false, order: null })
-    }
+//     const order = await order.findById(id)
 
-    return res.json({ status: true, order })
-})
+//     if (!order) {
+//         return res.status(404).json({ status: false, order: null })
+//     }
 
-app.get('/orders', [authUser, authRole], async (req, res) => {
-    const orders = await order.find()
+//     if (state < order.state) {
+//         return res.status(422).json({ status: false, order: null, message: 'Invalid operation' })
+//     }
 
-    return res.json({ status: true, orders })
-})
+//     order.state = state;
 
-app.patch('/order/:id', async (req, res) => {
-    const { id } = req.params;
-    const { state } = req.body;
+//     await order.save()
 
-    const order = await order.findById(id)
-
-    if (!order) {
-        return res.status(404).json({ status: false, order: null })
-    }
-
-    if (state < order.state) {
-        return res.status(422).json({ status: false, order: null, message: 'Invalid operation' })
-    }
-
-    order.state = state;
-
-    await order.save()
-
-    return res.json({ status: true, order })
-})
+//     return res.json({ status: true, order })
+// })
 
 app.delete('/order/:id', async (req, res) => {
     const { id } = req.params;
