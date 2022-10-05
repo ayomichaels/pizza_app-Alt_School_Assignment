@@ -12,7 +12,16 @@ const moment = require('moment')
 const getAllOrders = async (req,res)=>{
     const orders = await Order.find()
     res.status(200).json({ orders })
-    // res.status(200).json({msg: 'it is working'})
+    const {limit,sort} = req.query
+    if (limit) {
+        console.log(limit);
+        let limitedOrders = orders.slice(0, Number(limit))
+        console.log(`Total number of limit entries : ${limitedOrders.length}`);
+        return res.status(200).json({ limitedOrders })
+
+    }
+    console.log(`Total number of entries : ${orders.length}`);
+    res.status(200).json({ orders })
 }
 
 const createOrder = async (req,res) =>{
