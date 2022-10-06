@@ -9,10 +9,52 @@ const moment = require('moment')
 
 //You can protect the get order routes for users to just be only be able to view their own order. Use password
 
+function byDate(order1, order2) {
+    if (order1.created_at > order2.created_at) {
+        return 1;
+    } else if (order2.created_at < order1.created_at) {
+        return -1
+    } else {
+        return 0
+    }
+}
+
+function byItems(order1, order2) {
+    if (order1.items > order2.items) {
+        return 1;
+    } else if (order2.items < order1.items) {
+        return -1
+    } else {
+        return 0
+    }
+}
+
+const sortedOrders = async (req, res) =>{
+    const sortedOrders = await Order.find().sort({
+        total_price : -1
+    })
+    return res.status(200).json({ sortedOrders})
+}
+
 const getAllOrders = async (req,res)=>{
+    const {limit,sort, search} = req.query
+    if (sort === 'ascending') {
+        const sortedOrders = await Order.find().sort({
+            total_price : 1,
+            created_at : 1
+        })
+        console.log('Orders sorted in ascending order');
+        return res.status(200).json({ sortedOrders })
+    } else if (sort === 'descending') {
+        const sortedOrders = await Order.find().sort({
+            total_price : -1,
+            created_at : -1
+        })
+        console.log('Orders sorted in descending order');
+        return res.status(200).json({ sortedOrders })
+    }
+
     const orders = await Order.find()
-    res.status(200).json({ orders })
-    const {limit,sort} = req.query
     if (limit) {
         console.log(limit);
         let limitedOrders = orders.slice(0, Number(limit))
@@ -20,6 +62,15 @@ const getAllOrders = async (req,res)=>{
         return res.status(200).json({ limitedOrders })
 
     }
+
+   
+    // if (sort) {
+    //     const sortedOrders = orders.sort(byDate)
+    //     console.log('sorted by date created');
+    //     return res.status(200).json({ sortedOrders })
+    // }
+
+
     console.log(`Total number of entries : ${orders.length}`);
     res.status(200).json({ orders })
 }
@@ -68,6 +119,7 @@ const deleteOrder = async(req, res) =>{
 }
 
 module.exports = {
+    sortedOrders,
     getAllOrders,
     createOrder,
     getOrder,

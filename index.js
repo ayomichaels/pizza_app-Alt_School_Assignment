@@ -9,6 +9,7 @@ require('dotenv').config()
 const authUser = require('./middleware/authUser')
 const authRole = require('./middleware/authRole')
 const orderRoutes = require ('./routes/orderRoutes')
+const {sortedOrders} = require ('./controllers/controllers')
 
 const PORT = process.env.port || 3334
 
@@ -16,7 +17,7 @@ const app = express()
 
 app.use(express.json());
 
-
+// app.get('/orders/sort',sortedOrders)
 app.use('/orders', orderRoutes )
 //start of user routes
 
