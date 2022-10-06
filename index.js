@@ -17,7 +17,6 @@ const app = express()
 
 app.use(express.json());
 
-// app.get('/orders/sort',sortedOrders)
 app.use('/orders', orderRoutes )
 //start of user routes
 
