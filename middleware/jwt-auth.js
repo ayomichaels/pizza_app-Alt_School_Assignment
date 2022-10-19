@@ -4,6 +4,7 @@ const CustomAPIError = require('../errors/custom-error')
 
 
 const authenticationMiddleware = async (req,res,next) =>{
+    //check for token
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {

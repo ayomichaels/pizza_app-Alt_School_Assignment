@@ -19,9 +19,7 @@ const app = express()
 
 app.use(express.json());
 
-//error
-app.use(notFoundMiddleware);
-app.use(errorHandlerMiddleware); 
+
 
 
 app.use('/orders', orderRoutes )
@@ -29,60 +27,9 @@ app.use('/orders', orderRoutes )
 app.use('/login', userRoutes )
 
 
-app.post('/', async (req, res) =>{
-    const {username, password} = req.body
-    const userDetails = await user.create(req.body)
-    if (!username || !password) {
-        return res.status(403).json({err: 'You have to input all details required'})
-    }
-    
-    return res.status(201).json({userDetails})
-})
-
-app.get('/', async (req, res) => {
-    const allUsers = await user.find()
-    return res.json({ allUsers})
-})
-
-//end of user routes
-
-//start of order routes
-app.get('/', (req, res) => {
-    return res.json({ status: true })
-})
-
-
-
-
-// app.patch('/order/:id', async (req, res) => {
-//     const { id } = req.params;
-//     const { state } = req.body;
-
-//     const order = await order.findById(id)
-
-//     if (!order) {
-//         return res.status(404).json({ status: false, order: null })
-//     }
-
-//     if (state < order.state) {
-//         return res.status(422).json({ status: false, order: null, message: 'Invalid operation' })
-//     }
-
-//     order.state = state;
-
-//     await order.save()
-
-//     return res.json({ status: true, order })
-// })
-
-app.delete('/order/:id', async (req, res) => {
-    const { id } = req.params;
-
-    const order = await order.deleteOne({ _id: id})
-
-    return res.json({ status: true, order })
-})
-
+//error
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware); 
 
 mongoose.connect(process.env.MONGO_URI)
 
@@ -96,7 +43,9 @@ mongoose.connection.on("error", (err) => {
 	console.log("An error occurred while connecting to MongoDB");
 	console.log(err);
 });
-
+//error
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware); 
 app.listen(PORT, () => {
     console.log('Listening on port, ', PORT)
 })
