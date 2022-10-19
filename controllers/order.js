@@ -26,7 +26,6 @@ const getAllOrders = async (req,res)=>{
 
     //query by pagination and limit
     if (page) {
-        console.log('we can apply pagination');
         const orders = await Order.find({})
         const startIndex = (page - 1) * limit
         const endIndex = page * limit

@@ -1,15 +1,18 @@
 const express = require('express')
 const router = express.Router()
 
+
+const jwtAuth = require('../middleware/jwt-auth')
+
 const {
     getAllOrders,
     createOrder,
     getOrder,
     updateOrder,
     deleteOrder
-} = require('../controllers/controllers')
+} = require('../controllers/order')
 
-router.route('/').get(getAllOrders).post(createOrder)
+router.route('/').get(jwtAuth, getAllOrders).post(createOrder)
 router.route('/:id').get(getOrder).patch(updateOrder).delete(deleteOrder)
 module.exports = router
 

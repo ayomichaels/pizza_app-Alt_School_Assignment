@@ -1,0 +1,42 @@
+{
+  "name": "pizza_app-alt_school_assignment",
+  "version": "1.0.0",
+  "description": "Solution to Alt_School Africa Pizza-App-Assignment",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "connect-ensure-login": "^0.1.1",
+    "dotenv": "^16.0.2",
+    "express-async-errors": "^3.1.1",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^7.1.2"
+  },
+  "devDependencies": {
+    "supertest": "^6.3.0"
+  },
+  "scripts": {
+    "test": "integration"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayomichaels/pizza_app-Alt_School_Assignment.git"
+  },
+  "keywords": [
+    "nodeJS",
+    "alt_school",
+    "Ayo",
+    "Michaels"
+  ],
+  "author": "Ayo Michaels",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ayomichaels/pizza_app-Alt_School_Assignment/issues"
+  },
+  "homepage": "https://github.com/ayomichaels/pizza_app-Alt_School_Assignment#readme"
+}

@@ -9,16 +9,25 @@ require('dotenv').config()
 const authUser = require('./middleware/authUser')
 const authRole = require('./middleware/authRole')
 const orderRoutes = require ('./routes/orderRoutes')
-const {sortedOrders} = require ('./controllers/controllers')
-
+const userRoutes = require('./routes/usersRoutes')
+const {sortedOrders} = require ('./controllers/order')
+const notFoundMiddleware = require('./middleware/not-found')
+const errorHandlerMiddleware = require('./middleware/error-handler')
 const PORT = process.env.port || 3334
 
 const app = express()
 
 app.use(express.json());
 
+//error
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware); 
+
+
 app.use('/orders', orderRoutes )
 //start of user routes
+app.use('/login', userRoutes )
+
 
 app.post('/', async (req, res) =>{
     const {username, password} = req.body
